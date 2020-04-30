@@ -1,24 +1,13 @@
 'use strict';
 
-let money            = +prompt("Your monthly budget?");
+let money            = prompt("Your monthly budget?");
 let time             = prompt("Type date in YYYY-MM-DD format");
-let monthState       = prompt("This month state:");
-let monthStatePrice  = +prompt("Month state expense:");
-let optionalExpense1 = chooseOptExpenses();
-let optionalExpense2 = chooseOptExpenses();
-let optionalExpense3 = chooseOptExpenses();
 
 let appData = {
     budget   : money,
     timedata : time,
-    expenses : {
-        monthState : monthStatePrice
-    },
-    optionalExpenses : {
-        1 : optionalExpense1,
-        2 : optionalExpense2,
-        3 : optionalExpense3
-    },
+    expenses : {},
+    optionalExpenses : {},
     income           : [],
     savings          : false
 };
@@ -28,12 +17,18 @@ function detectDayBudget(totalBudget){
 }
 
 function chooseOptExpenses(){
-    let optExpense = prompt("What's your optional expense?");
-    return optExpense;
+    for(let i = 1; i < 4; i++){
+        let optExpense = prompt("What's your optional expense?");
+        if (typeof(optExpense) === "string" && monthState != "" && typeof(monthState) != null && optExpense.length < 50){
+            appData.optionalExpenses[i] = optExpense;
+        }else{
+            optExpense = prompt("What's your optional expense?");
+        }
+    }
 }
 
 function detectLevel(budget){
-    if (budget < 10000){
+    if(budget < 10000){
         return "Well-being level is lower than average";
     }else if(budget == 10000){
         return "Well-being level is average";
@@ -41,6 +36,19 @@ function detectLevel(budget){
         return "Well-being level is high";
     }
 }
+
+for(let i = 0; i < 2; i++){
+    let monthState       = prompt("This month state:");
+    let monthStatePrice  = prompt("Month state expense:");
+    if (typeof(monthState) === "string" && monthState != "" && monthStatePrice != "" && typeof(monthState) != null && typeof(monthStatePrice) != null && monthState.length < 50){
+        appData.expenses[monthState] = monthStatePrice;
+    }else{
+        monthState       = prompt("This month state:");
+        monthStatePrice  = prompt("Month state expense:");
+    }
+}
+
+
 
 
 
